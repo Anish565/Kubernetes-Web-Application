@@ -9,11 +9,9 @@ services:
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb://mongo:27017/todo_db
+      - MONGO_PASSWORD=U3eQIAZXLQTZTBlK
     volumes:
       - .:/app
-    networks:
-      - app-network
 
   mongo:
     image: mongo:latest
@@ -22,12 +20,8 @@ services:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
-    networks:
-      - app-network
 
 volumes:
   mongo-data:
 
-networks:
-  app-network:
-    driver: bridge
+# 637423540591.dkr.ecr.us-east-1.amazonaws.com/spidey565/todo-flask-app

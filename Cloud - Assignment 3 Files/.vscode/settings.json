@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "kubernetes://schema/v1%40service": "file:///c%3A/Users/Anish/Documents/Cloud%20Computing/Assignemnt%202/Cloud%20-%20Assignment%203%20Files-20241022T145157Z-001/Cloud%20-%20Assignment%203%20Files/mongo-pod.yaml"
+    }
+}

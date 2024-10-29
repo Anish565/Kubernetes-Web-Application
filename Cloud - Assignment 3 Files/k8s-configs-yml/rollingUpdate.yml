@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1  # Max number of pods that can be created during the rolling update over the desired number of replicas
+      maxUnavailable: 1  # Max number of pods that can be unavailable during the rolling update
+  selector:
+    matchLabels:
+      app: flask-app
+  template:
+    metadata:
+      labels:
+        app: flask-app
+    spec:
+      containers:
+        - name: flask-container
+          image: 637423540591.dkr.ecr.us-east-1.amazonaws.com/spidey565/todo-flask-app:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MONGO_PASSWORD
+              value: U3eQIAZXLQTZTBlK 

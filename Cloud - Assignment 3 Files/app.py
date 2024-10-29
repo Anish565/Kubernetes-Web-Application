@@ -1,12 +1,12 @@
 from flask import Flask, render_template,request,redirect,url_for # For flask implementation
-from pymongo import MongoClient # Database connector
 from bson.objectid import ObjectId # For ObjectId to work
 from bson.errors import InvalidId # For catching InvalidId exception for ObjectId
 import os
+from pymongo import MongoClient # Database connector
 
-mongodb_host = os.environ.get('MONGO_HOST', 'localhost')
-mongodb_port = int(os.environ.get('MONGO_PORT', '27017'))
-client = MongoClient(mongodb_host, mongodb_port)    #Configure the connection to the database
+mongo_password = "U3eQIAZXLQTZTBlK"
+mongo_connection_string = f"mongodb+srv://anishnimbalkar:{mongo_password}@cluster0.qjxle.mongodb.net/camp2016?retryWrites=true&w=majority&appName=Cluster0&ssl=true"
+client = MongoClient(mongo_connection_string)    #Configure the connection to the database
 db = client.camp2016    #Select the database
 todos = db.todo #Select the collection
 
@@ -124,5 +124,5 @@ if __name__ == "__main__":
 	port = int(os.environ.get('PORT', 5000))
 	debug = False if env == 'production' else True
 	app.run(debug=True)
-	app.run(port=port, debug=debug)
+	app.run(host="0.0.0.0", port=port, debug=debug)
 	# Careful with the debug mode..
