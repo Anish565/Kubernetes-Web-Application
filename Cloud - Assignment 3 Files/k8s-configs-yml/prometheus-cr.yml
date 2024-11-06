@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus
+  namespace: default  # Replace with the namespace where Prometheus is deployed
+spec:
+  replicas: 2
+  serviceMonitorSelector:
+    matchLabels:
+      release: prometheus
+  ruleSelector:
+    matchLabels:
+      release: prometheus
+  alerting:
+    alertmanagers:
+      - namespace: default  # Replace with correct namespace for Alertmanager
+        name: alertmanager
+        port: web

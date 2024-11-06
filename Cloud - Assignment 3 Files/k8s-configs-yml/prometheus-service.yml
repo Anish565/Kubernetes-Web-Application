@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus-server
+spec:
+  type: LoadBalancer  # Can be NodePort if you want external access
+  ports:
+  - name: prometheus-http
+    port: 9090        # The external port that will be exposed
+    targetPort: 9090  # The port the Prometheus container listens on
+    protocol: TCP
+  selector:
+    app: prometheus   # Match the label of the Prometheus pod

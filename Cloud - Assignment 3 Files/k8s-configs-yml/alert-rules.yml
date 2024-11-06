@@ -1,0 +1,38 @@
+groups:
+  - name: flask-app-alerts
+    rules:
+      - alert: PodCrashingLoop
+        expr: kube_pod_container_status_restarts_total{job="kube-state-metrics"} > 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Pod {{ $labels.pod }} is restarting"
+          description: "This pod has restarted more than 5 times in 2 minutes. Check the logs for more information."
+
+      - alert: TargetDown
+        expr: up == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Target {{ $labels.job }} Down"
+          description: "This target is down. Check the logs for more information."
+
+      - alert: HighPodRestart
+        expr: rate(kube_pod_container_status_restarts_total[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Pod {{ $labels.pod }} has restarted {{ $value }} times in the last 5 minutes"
+          description: "This pod has restarted too many times in the last 5 minutes. Check the logs for more information."
+
+      - alert: HighMemoryUsage
+        expr: container_memory_usage_bytes > 500000000
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Pod {{ $labels.pod }} is using too much memory"
+          description: "This pod is using too much memory. Check the logs for more information."

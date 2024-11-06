@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+      - name: prometheus-server
+        image: prom/prometheus:v2.26.0
+        args:
+        - "--config.file=/etc/prometheus-config/prometheus.yml"
+        - "--storage.tsdb.path=/prometheus/"
+        ports:
+        - containerPort: 9090
+        
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/prometheus-config/prometheus.yml
+          subPath: prometheus.yml
+        - name: alert-rules-volume
+          mountPath: /etc/prometheus-config/alert-rules.yml
+          subPath: alert-rules.yml
+        - name: storage-volume
+          mountPath: /prometheus
+      volumes:
+      - name: config-volume
+        configMap:
+          name: prometheus-config
+      - name: alert-rules-volume
+        configMap:
+          name: alert-rules-config
+      - name: storage-volume
+        emptyDir: {}

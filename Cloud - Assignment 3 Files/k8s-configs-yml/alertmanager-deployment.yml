@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alertmanager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: alertmanager
+  template:
+    metadata:
+      labels:
+        app: alertmanager
+    spec:
+      containers:
+      - name: alertmanager
+        image: prom/alertmanager:v0.22.2
+        args:
+        - "--config.file=/etc/alertmanager-config/alertmanager.yml"  # Make sure the file path is correct
+        ports:
+        - containerPort: 9093
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "200Mi"
+            cpu: "200m"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/alertmanager-config/  # This is the directory where the config file will be placed
+          # subPath: alertmanager.yml      # Ensure you specify the file to mount in the directory
+      volumes:
+      - name: config-volume
+        configMap:
+          name: alertmanager-config
+          items:
+          - key: alertmanager.yml        # Map only the specific key (file) from ConfigMap
+            path: alertmanager.yml       # This ensures it's mounted as a file
