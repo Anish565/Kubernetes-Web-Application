@@ -21,7 +21,7 @@ data:
     - name: 'slack-notifications'
       slack_configs:
       - api_url: 'https://hooks.slack.com/services/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'
-        channel: '##projectteam''
+        channel: '#projectteam''
         send_resolved: true
         text: |-
           {{ range .Alerts }}

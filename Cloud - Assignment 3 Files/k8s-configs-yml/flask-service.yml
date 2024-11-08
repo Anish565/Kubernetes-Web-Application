@@ -7,6 +7,7 @@ spec:
     app: flask-app
   ports:
     - protocol: TCP
-      port: 5000  # External port to expose the service
-      targetPort: 5000  # The port the Flask app is listening on inside the container
-  type: LoadBalancer  # Expose the service on a port accessible from outside Minikube
+      port: 5000  
+      targetPort: 5000 
+  type: LoadBalancer  
+  
